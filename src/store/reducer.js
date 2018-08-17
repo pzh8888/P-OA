@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import todolists from './TodoLists'
+import commons from './commons'
 
 const reducer = combineReducers({
-    todolists
+    commons
 })
 
 export default reducer

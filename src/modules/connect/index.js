@@ -35,11 +35,11 @@ const _connect = (UIComponent, ...reducerOptions) => {
             if (typeof(item) === 'string') {
                 if (actionCreators[item]) {
                     // 键值对
-                    actions[item + '_action'] = bindActionCreators(actionCreators[item], dispatch)
+                    actions[item + '_actions'] = bindActionCreators(actionCreators[item], dispatch)
                 }
             } else {
                 if (actionCreators[item.reducer]) {
-                    actions[item.reducer + '_action'] = bindActionCreators(actionCreators[item.reducer], dispatch)
+                    actions[item.reducer + '_actions'] = bindActionCreators(actionCreators[item.reducer], dispatch)
                     
                 }
             }

@@ -1,5 +1,5 @@
-import todolists from '../../store/TodoLists/actionCreator'
+import commons from '../../store/commons/actionCreator'
 
 export default {
-    todolists
+    commons
 }

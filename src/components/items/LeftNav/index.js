@@ -8,7 +8,7 @@ class LeftNav extends Component {
         super(props)
     
         this.state = {
-            openkeys: [this.getOpenKey()]
+            openKeys: [this.getOpenKey()]
         }
 
         this.renderMenu = this.renderMenu.bind(this)
@@ -20,13 +20,13 @@ class LeftNav extends Component {
         this.props.history.push(key)
     }
     handleTitleClick ({key}) {
-        this.setState({openkeys: [key]})
+        this.setState({ openKeys: [key] })
     }
     renderMenu () {
         let { menu_lists } = this.props
         if (!menu_lists) return ''
         return (
-            <Menu onClick={this.menuClick} theme="dark" openKeys={this.state.openkeys} selectedKeys={[this.props.location.pathname]} mode="inline">
+            <Menu onClick={this.menuClick} theme="dark" openKeys={this.state.openKeys} selectedKeys={[this.props.location.pathname]} mode="inline">
                 {
                     menu_lists.map(menu => {
                         if (menu.children && menu.children.length) {
@@ -58,7 +58,7 @@ class LeftNav extends Component {
     getOpenKey () {
         let { pathname } = this.props.location
         let { menu_lists } = this.props
-        if (!menu_lists) return ''
+        if (!menu_lists) return '/'
         for (let i = 0; i < menu_lists.length; i ++) {
             if (menu_lists[i].children) {
                 for (let j = 0; j < menu_lists[i].children.length; j ++) {

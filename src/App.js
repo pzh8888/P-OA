@@ -8,18 +8,18 @@ class App extends Component {
   state = {
     isLoading: false
   }
-  componentWillReceiveProps (props) {
-    let {pathname} = props.location
-    if (pathname !== this.props.location.pathname) {
-      this.checkLogin(props)
-    }
-  }
-  componentWillMount () {
-    this.checkLogin(this.props)
-    this.bus.on('change-loading', () => {
-      this.setState({isLoading: !this.state.isLoading})
-    })
-  }
+  // componentWillReceiveProps (props) {
+  //   let {pathname} = props.location
+  //   if (pathname !== this.props.location.pathname) {
+  //     this.checkLogin(props)
+  //   }
+  // }
+  // componentWillMount () {
+  //   this.checkLogin(this.props)
+  //   this.bus.on('change-loading', () => {
+  //     this.setState({isLoading: !this.state.isLoading})
+  //   })
+  // }
   checkLogin (props) {
     let { commons, history } = props
     if (props.location.pathname !== '/login') {

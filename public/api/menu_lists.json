@@ -1,0 +1,40 @@
+{   
+    "code": 200,
+    "data": [
+        {
+            "title": "P-OA系统",
+            "path": "/",
+            "type": "desktop",
+            "children": [
+                {
+                    "title": "后台首页",
+                    "path": "/" 
+                },
+                {
+                    "title": "公告信息",
+                    "path": "/board"
+                }
+            ]
+        },
+        {
+            "title": "考勤管理",
+            "path": "/attend",
+            "type": "user",
+            "children": [
+                {
+                    "title": "我的考勤",
+                    "path": "/attend/mine"
+                },
+                {
+                    "title": "请假加班",
+                    "path": "/attend/leave-and-work"
+                }
+            ]
+        },
+        {
+            "title": "设置",
+            "path": "/option",
+            "type": "pie-chart"
+        }
+    ]
+}

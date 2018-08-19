@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './index.scss'
 import connect from '../../../modules/connect'
-import { Table, Button, Divider, Select, Modal } from 'antd'
-
+import { Table, Button, Divider, Select, Modal, Input } from 'antd'
 const Option = Select.Option
+const { TextArea } = Input
 
 
 class Board extends Component {
@@ -12,6 +12,8 @@ class Board extends Component {
         this.searchChange = this.searchChange.bind(this)
         this.checkDetail = this.checkDetail.bind(this)
         this.changeVisible = this.changeVisible.bind(this)
+        this.createBoard = this.createBoard.bind(this)
+        this.submitCreateBoard = this.submitCreateBoard.bind(this)
     }
     state = {
         selectedRowKeys: [], // Check here to configure the default column
@@ -54,7 +56,7 @@ class Board extends Component {
             });
         }, 1000);
     }
-
+    
     onSelectChange = (selectedRowKeys) => {
         this.setState({ selectedRowKeys });
     }
@@ -77,18 +79,42 @@ class Board extends Component {
         let canDo = this.checkPermission('delete')
         if (!canDo) {
             alert('你没有权限')
-            this.props.history.replace('/login')
             return false
         }
         this.setState({data: this.state.data.filter(item => item.id !== id)})
     }
     checkPermission (type) {
-        if (!this.props.commons.user_state) return false
-        let { permission } = this.props.commons.user_state
-        return permission.some(item => item === type)
+        if (this.props.commons.user_state.permission) {
+            let { permission } = this.props.commons.user_state
+            return permission.some(item => item === type)
+        }
     }
     changeVisible () {
         this.setState({visible: !this.state.visible})
+    }
+    createBoard () {
+        let canDo = this.checkPermission('create')
+        if (!canDo) {
+            alert('你没有权限')
+            return false
+        }
+        this.setState({check_data: []})
+        this.changeVisible()
+    }
+    submitCreateBoard (title, content) {
+        if (title === '') {
+            alert('title不能为空')
+            return false
+        }
+        if (content === '') {
+            alert('content不能为空')
+            return false
+        }
+        let id = this.state.data.length + 1
+        let board = { title, content, type: '生活园地', type_id: 1, id, key: id }
+        this.state.data.push(board)
+        this.setState({data: this.state.data})
+        this.changeVisible()
     }
     getData (type_id = 0) {
         this.$http.ajax({
@@ -136,21 +162,68 @@ class Board extends Component {
                     >
                         Reload
                     </Button>
+                    <Button
+                        style={{marginLeft: 10}}
+                        type="primary"
+                        onClick={this.createBoard}
+                    >
+                        create
+                    </Button>
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                     </span>
                 </div>
                 <Table rowSelection={rowSelection} columns={columns} dataSource={data} pagination={false}/>
-                <Modal
-                    title={check_data.title}
+                <MyModal
+                    checkData={check_data}
                     visible={visible}
-                    onOk={this.changeVisible}
+                    onOk={check_data.title ? this.changeVisible : this.submitCreateBoard}
                     onCancel={this.changeVisible}
                 >
-                    <p>{check_data.content}</p>
-                </Modal>
+                </MyModal>
             </div>
         );
+    }
+}
+
+const CreateForm = (props) => {
+    return (
+        <div>
+            <Input onChange={props.changeNewTitle} placeholder="Basic usage" />
+            <TextArea onChange={props.changeNewContent} placeholder="Autosize height with minimum and maximum number of lines" autosize={{ minRows: 3 }} />
+        </div>
+    )
+}   
+
+class MyModal extends Component {
+    constructor (props) {
+        super(props)
+        this.changeNewTitle = this.changeNewTitle.bind(this)
+        this.changeNewContent = this.changeNewContent.bind(this)
+    }
+    state = {
+        new_board: {new_title: '', new_content: ''}
+    }
+    changeNewTitle (e) {
+        this.state.new_board.new_title = e.target.value
+        this.setState({new_board: this.state.new_board})
+    }
+    changeNewContent (e) {
+        this.state.new_board.new_content = e.target.value
+        this.setState({new_board: this.state.new_board})
+    }
+    render () {
+        let { title, content } = this.props.checkData
+        return(
+            <Modal
+                title={title || '新增'}
+                visible={this.props.visible}
+                onOk={this.props.onOk.bind(null, this.state.new_board.new_title, this.state.new_board.new_content)}
+                onCancel={this.props.onCancel}
+            >
+                <div>{content || <CreateForm changeNewTitle={this.changeNewTitle} changeNewContent={this.changeNewContent}/>}</div>
+            </Modal>
+        )
     }
 }
 

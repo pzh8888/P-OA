@@ -4,6 +4,6 @@
     "data": {
         "username": "二狗子",
         "level": 6,
-        "permission": ["delete"]
+        "permission": ["create", "delete"]
     }
 }

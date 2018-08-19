@@ -14,12 +14,14 @@ class App extends Component {
       this.checkLogin(props)
     }
   }
-  // componentWillMount () {
-  //   this.checkLogin(this.props)
-  //   this.bus.on('change-loading', (bool) => {
-  //     this.setState({isLoading: bool})
-  //   })
-  // }
+  componentWillMount () {
+    this.props.commons_actions.getUserState(() => {
+      this.checkLogin(this.props)
+    })
+    this.bus.on('change-loading', (bool) => {
+      this.setState({isLoading: bool})
+    })
+  }
   checkLogin (props) {
     let { commons, history } = props
     if (props.location.pathname !== '/login') {

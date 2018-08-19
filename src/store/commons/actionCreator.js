@@ -4,12 +4,18 @@ import {
 } from './const'
 
 const actionCreator = {
+    getUserState (callback) {
+        if (!sessionStorage.user_state) callback()
+        let user_state = JSON.parse(sessionStorage.user_state || '{}')
+        return {type: CHANGE_USER_STATE, user_state}
+    },
     login ({username, password, success, fail}) {
         return dispatch => {
             http.ajax({
                 url: '/api/login.json',
                 params: {username, password}
             }).then(res => {
+                sessionStorage.user_state = JSON.stringify(res)
                 let action = { type: CHANGE_USER_STATE, user_state: res}
                 dispatch (action)
                 if (success) success()

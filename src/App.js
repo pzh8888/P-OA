@@ -8,16 +8,16 @@ class App extends Component {
   state = {
     isLoading: false
   }
-  // componentWillReceiveProps (props) {
-  //   let {pathname} = props.location
-  //   if (pathname !== this.props.location.pathname) {
-  //     this.checkLogin(props)
-  //   }
-  // }
+  componentWillReceiveProps (props) {
+    let {pathname} = props.location
+    if (pathname !== this.props.location.pathname) {
+      this.checkLogin(props)
+    }
+  }
   // componentWillMount () {
   //   this.checkLogin(this.props)
-  //   this.bus.on('change-loading', () => {
-  //     this.setState({isLoading: !this.state.isLoading})
+  //   this.bus.on('change-loading', (bool) => {
+  //     this.setState({isLoading: bool})
   //   })
   // }
   checkLogin (props) {

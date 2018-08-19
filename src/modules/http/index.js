@@ -4,7 +4,7 @@ import bus from '../bus'
 const http = {
     ajax (options) {
         return new Promise((resolve, rejected) => {
-            bus.emit('change-loading')
+            bus.emit('change-loading', true)
             axios({
                 url: options.url,
                 method: options.method || 'GET',

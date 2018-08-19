@@ -3,6 +3,7 @@
     "code": 200,
     "data": {
         "username": "二狗子",
-        "level": 6
+        "level": 6,
+        "permission": ["delete"]
     }
 }
